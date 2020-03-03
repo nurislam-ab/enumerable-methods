@@ -11,8 +11,8 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
-    for x in self do
-      yield(x, i)
+    self.my_each do
+      yield(i, self[i])
       i += 1
     end
   end
@@ -29,10 +29,10 @@ module Enumerable
     return to_enum unless block_given?
 
     b = true
-    self.my_each { |i|
+    self.my_each do |i|
       b = yield(i)
       break if !b
-    }
+    end
     b
   end
 
@@ -89,4 +89,3 @@ module Enumerable
     x
   end
 end
-  
