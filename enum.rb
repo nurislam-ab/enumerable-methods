@@ -6,7 +6,7 @@ module Enumerable
       yield i
     end
   end
-  
+
     def my_each_with_index
       return to_enum unless block_given?
       i = 0
@@ -15,14 +15,14 @@ module Enumerable
         i += 1
       end
     end
-  
+
     def my_select
       return to_enum unless block_given?
       arr = []
       self.my_each { |i| arr << i if yield(i) }
       arr
     end
-  
+
     def my_all?
       return to_enum unless block_given?
       b = true
@@ -32,7 +32,7 @@ module Enumerable
       }
       b
     end
-  
+
     def my_any?
       return to_enum unless block_given?
       b = true
@@ -42,7 +42,7 @@ module Enumerable
       }
       b
     end
-  
+
     def my_none?
       return to_enum unless block_given?
       b = true
@@ -52,7 +52,7 @@ module Enumerable
       }
       b
     end
-  
+
     def my_count
       i = 0
       for x in self do
@@ -60,7 +60,7 @@ module Enumerable
       end
       i
     end
-  
+
     def my_map(proc = nil)
       return to_enum unless block_given? or proc
       arr = []
@@ -73,7 +73,7 @@ module Enumerable
       }
       arr
     end
-  
+
     def my_inject
       # return to_enum unless block_given?
       x = self[0]
