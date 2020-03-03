@@ -38,12 +38,12 @@ module Enumerable
 
   def my_any?
     return to_enum unless block_given?
-    
+
     b = true
-    self.my_each { |i|
+    self.my_each do |i|
       b = yield(i)
       break if b
-    }
+    end
     b
   end
 
@@ -51,10 +51,10 @@ module Enumerable
     return to_enum unless block_given?
 
     b = true
-    self.my_each { |i|
+    self.my_each do |i|
       b = !yield(i)
       break if b
-    }
+    end
     b
   end
 
@@ -70,13 +70,13 @@ module Enumerable
     return to_enum unless block_given? or proc
 
     arr = []
-    self.my_each { |i|
+    self.my_each do |i|
       if block_given?
         arr << yield(i)
       else
         arr << proc.call(i)
       end
-    }
+    end
     arr
   end
 
