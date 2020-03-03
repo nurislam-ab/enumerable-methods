@@ -1,6 +1,7 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
+    
     for i in self do
       yield i
     end
