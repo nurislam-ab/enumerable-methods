@@ -2,9 +2,28 @@ module Enumerable
   def my_each
     return to_enum unless block_given?
 
-    for i in self do
-      yield i
+    i = 0
+    if is_a?(Range)
+      for i in self do
+        yield(i)
+        i+=1
+      end
     end
+
+    if is_a?(Array)
+      while i < length
+        yield(self[i])
+        i+=1
+      end
+    end
+
+    if is_a?(Hash)
+      while i < length
+        yield(keys[i], self[keys[i]])
+        i+=1
+      end
+    end
+    self
   end
 
   def my_each_with_index
