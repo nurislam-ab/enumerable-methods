@@ -3,24 +3,18 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
-    if is_a?(Range)
-      for i in self do
-        yield(i)
-        i += 1
-      end
-    end
+    par = is_a?(Range) ? size : length
 
-    if is_a?(Array)
-      while i < (is_a?(Range) ? size : length
-        yield(self[i])
-        i += 1
-      end
-    end
-
-    if is_a?(Hash)
-      while i < length
+    while i < par
+      if is_a?(Range)
+        yield(self)
+        i+= 1
+      elsif is_a?(Hash)
         yield(keys[i], self[keys[i]])
-        i += 1
+        i+= 1
+      else
+        yield(self[i])
+        i+= 1
       end
     end
     self
@@ -59,7 +53,7 @@ module Enumerable
     return to_enum unless block_given?
 
     b = true
-    self.my_each do |i|
+    my_each do |i|
       b = yield(i)
       break if b
     end
@@ -79,7 +73,7 @@ module Enumerable
 
   def my_count
     i = 0
-    self.my_each do |i|
+    my_each do |i|
       i += 1
     end
     i
@@ -89,8 +83,8 @@ module Enumerable
     return to_enum unless block_given? or proc
 
     arr = []
-    self.my_each do |i|
-      if block_given? = true
+    my_each do |i|
+      if block_given?
         arr << yield(i)
       else
         arr << proc.call(i)
@@ -100,8 +94,7 @@ module Enumerable
   end
 
   def my_inject
-    return to_enum unless block_given?
-
+    # return to_enum unless block_given?
     x = self[0]
     self[1..self.length].my_each do |i|
       x = yield(x, i)
