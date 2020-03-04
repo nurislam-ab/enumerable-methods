@@ -72,7 +72,7 @@ module Enumerable
   def my_count
     i = 0
     my_each do |i|
-      i+
+      i += 1
     end
     i
   end
