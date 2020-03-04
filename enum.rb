@@ -8,14 +8,12 @@ module Enumerable
     while i < par
       if is_a?(Range)
         yield(self)
-        i+= 1
       elsif is_a?(Hash)
         yield(keys[i], self[keys[i]])
-        i+= 1
       else
         yield(self[i])
-        i+= 1
       end
+      i += 1
     end
     self
   end
@@ -44,7 +42,7 @@ module Enumerable
     b = true
     self.my_each do |i|
       b = yield(i)
-      break if !b
+      break unless !b
     end
     b
   end
@@ -74,7 +72,7 @@ module Enumerable
   def my_count
     i = 0
     my_each do |i|
-      i += 1
+      i+
     end
     i
   end
