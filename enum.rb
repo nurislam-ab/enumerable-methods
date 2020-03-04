@@ -6,21 +6,21 @@ module Enumerable
     if is_a?(Range)
       for i in self do
         yield(i)
-        i+=1
+        i += 1
       end
     end
 
     if is_a?(Array)
-      while i < length
+      while i < (is_a?(Range) ? size : length
         yield(self[i])
-        i+=1
+        i += 1
       end
     end
 
     if is_a?(Hash)
       while i < length
         yield(keys[i], self[keys[i]])
-        i+=1
+        i += 1
       end
     end
     self
@@ -79,7 +79,7 @@ module Enumerable
 
   def my_count
     i = 0
-    for x in self do
+    self.my_each do |i|
       i += 1
     end
     i
@@ -90,7 +90,7 @@ module Enumerable
 
     arr = []
     self.my_each do |i|
-      if block_given?
+      if block_given? = true
         arr << yield(i)
       else
         arr << proc.call(i)
@@ -100,9 +100,10 @@ module Enumerable
   end
 
   def my_inject
-    # return to_enum unless block_given?
+    return to_enum unless block_given?
+
     x = self[0]
-    for i in self[1..self.length] do
+    self[1..self.length].my_each do |i|
       x = yield(x, i)
     end
     x
