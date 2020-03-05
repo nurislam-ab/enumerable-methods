@@ -24,7 +24,11 @@ module Enumerable
 
     i = 0
     my_each do
-      yield(i, self[i])
+      if is_a?(Hash)
+        yield(keys[i], self[keys[i]])
+      else
+        yield(i, self[i])
+      end
       i += 1
     end
   end
@@ -83,10 +87,10 @@ module Enumerable
 
     arr = []
     my_each do |i|
-      if block_given?
-        arr << yield(i)
+      arr = if block_given?
+        yield(i)
       else
-        arr << proc.call(i)
+        proc.call(i)
       end
     end
     arr
@@ -103,3 +107,9 @@ module Enumerable
     x
   end
 end
+
+def multiply_els(arg)
+  arg.my_inject{|m, n| m * n }
+end
+
+multiply_els([2,4,5])
