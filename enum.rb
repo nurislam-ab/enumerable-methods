@@ -7,12 +7,12 @@ module Enumerable
     par = is_a?(Range) ? size : length
 
     while i < par
-      if is_a?(Range)
-        yield(range[i])
-      elsif is_a?(Hash)
+      # if is_a?(Range)
+      #   yield(range[i])
+      if is_a?(Hash)
         yield(keys[i], self[keys[i]])
       else
-        yield(self[i])
+        yield(range[i])
       end
       i += 1
     end
