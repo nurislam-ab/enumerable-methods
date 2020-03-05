@@ -3,7 +3,7 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
-    range = is_a?(Range) ? self.to_a : self
+    range = is_a?(Range) ? self.to_a
     par = is_a?(Range) ? size : length
 
     while i < par
@@ -41,9 +41,9 @@ module Enumerable
     return to_enum unless block_given?
 
     b = true
-    self.my_each do |i|
+    my_each do |i|
       b = yield(i)
-      break unless !b
+      break if !b
     end
     b
   end
