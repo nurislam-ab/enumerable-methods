@@ -72,7 +72,7 @@ module Enumerable
 
   def my_count
     c = 0
-    my_each do |i|
+    my_each do
       c += 1
     end
     c
@@ -95,9 +95,10 @@ module Enumerable
   def my_inject
     return to_enum unless block_given?
 
-    x = self[0]
-    self[1..self.length].my_each do |i|
-      x = yield(x, i)
+    arr = is_a?(Array) ? self : to_a
+    x = x if is_a?(Integer)
+    arr.my_each do |i|
+      x = x ? yield(x, i) : i
     end
     x
   end
