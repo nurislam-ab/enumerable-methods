@@ -3,7 +3,7 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
-    range = is_a?(Range) ? self.to_a
+    range = is_a?(Range) ? to_a : self
     par = is_a?(Range) ? size : length
 
     while i < par
