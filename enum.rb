@@ -88,10 +88,10 @@ module Enumerable
     arr = []
     my_each do |i|
       arr = if block_given?
-        yield(i)
-      else
-        proc.call(i)
-      end
+              yield(i)
+            else
+              proc.call(i)
+            end
     end
     arr
   end
@@ -109,7 +109,7 @@ module Enumerable
 end
 
 def multiply_els(arg)
-  arg.my_inject{|m, n| m * n }
+  arg.my_inject { |m, n| m * n }
 end
 
-multiply_els([2,4,5])
+multiply_els([2, 4, 5])
