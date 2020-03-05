@@ -3,11 +3,12 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
+    range = is_a?(Range) ? self.to_a : self
     par = is_a?(Range) ? size : length
 
     while i < par
       if is_a?(Range)
-        yield(self)
+        yield(range[i])
       elsif is_a?(Hash)
         yield(keys[i], self[keys[i]])
       else
@@ -22,7 +23,7 @@ module Enumerable
     return to_enum unless block_given?
 
     i = 0
-    self.my_each do
+    my_each do
       yield(i, self[i])
       i += 1
     end
@@ -32,7 +33,7 @@ module Enumerable
     return to_enum unless block_given?
 
     arr = []
-    self.my_each { |i| arr << i if yield(i) }
+    my_each { |i| arr << i if yield(i) }
     arr
   end
 
