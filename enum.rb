@@ -43,7 +43,7 @@ module Enumerable
     b = true
     my_each do |i|
       b = yield(i)
-      break if !b
+      break unless b
     end
     b
   end
@@ -63,7 +63,7 @@ module Enumerable
     return to_enum unless block_given?
 
     b = true
-    self.my_each do |i|
+    my_each do |i|
       b = !yield(i)
       break if b
     end
@@ -71,11 +71,11 @@ module Enumerable
   end
 
   def my_count
-    i = 0
+    c = 0
     my_each do |i|
-      i += 1
+      c += 1
     end
-    i
+    c
   end
 
   def my_map(proc = nil)
@@ -93,7 +93,8 @@ module Enumerable
   end
 
   def my_inject
-    # return to_enum unless block_given?
+    return to_enum unless block_given?
+
     x = self[0]
     self[1..self.length].my_each do |i|
       x = yield(x, i)
