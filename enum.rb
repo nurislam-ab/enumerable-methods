@@ -1,4 +1,4 @@
-module Enumerable
+class Enumerable
   def my_each
     return to_enum unless block_given?
 
@@ -38,10 +38,10 @@ module Enumerable
     arr
   end
 
-  def my_all?
+  def my_all?(*arg)
     my_each do |i|
       if !arg[0].nil?
-        return false unless arg[0].equal? i
+        return false unless arg[0] === i
       elsif block_given?
         return false unless yield(i)
       else
@@ -54,7 +54,7 @@ module Enumerable
   def my_any?(*arg)
     my_each do |i|
       if !arg[0].nil?
-        return true if arg[0].equal? i
+        return true if arg[0] === i
       elsif block_given?
         return true if yield(i)
       elsif i
@@ -85,11 +85,16 @@ module Enumerable
   def my_map(proc = nil)
     return to_enum unless block_given? or proc
 
-    arr = []
-    my_each do |i|
-      arr << block_given? ? yield(i) : proc.call(i)
+    arr = is_a?(Array) ? self : to_a
+    map = []
+    arr.my_each do |i|
+      map << if !proc.nil?
+               proc.call(i)
+             else
+               yield(i)
+             end
     end
-    arr
+    map
   end
 
   # rubocop:todo Metrics/PerceivedComplexity
