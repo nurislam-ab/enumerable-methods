@@ -9,6 +9,7 @@ RSpec.describe Enumerable do
   let(:array_of_tuples_idx) { [%i[a b], %i[c d]].map.with_index { |k, v| [k, v] } }
   let(:mixed_values) { [true, false, nil, 1, 'a'] }
   let(:falsies) { [false, false, false] }
+  let(:truthies) { [true, true, true ] }
 
   describe '#my_each' do
     it 'returns an enumerable object when no block is given' do
@@ -112,9 +113,43 @@ RSpec.describe Enumerable do
     end
   end
 
-#   describe '#' do
-      
-#   end
+  describe '#my_none?' do
+    it 'returns true when all the elements in the collection are falsy values and no block is given' do
+      expect(falsies.my_none?).to be true
+    end
+
+    it 'returns false when any of the elements in the collection is a truthy value and no block is given' do
+      expect(mixed_values.my_none?).to be false
+    end
+
+    it 'returns true when none of the elements in the collection passes the block condition' do
+      expect(truthies.my_none? {|item| item == false}).to be true
+    end
+
+    it 'returns false when at least one of the elements in the collection passes the block condition' do
+      expect(mixed_values.my_none? {|item| item == 1}).to be false
+    end
+
+    it 'returns true with an empty collection' do
+      expect([].my_none?).to be true
+    end
+
+    it 'returns true when none of the elements in the collection has case equality with the argument' do
+      expect(numbers.my_none?(String)).to be true
+    end
+
+    it 'returns false when any of the elements in the collection has case equality with the argument' do
+      expect(mixed_values.my_none?(String)).to be false
+    end
+
+    it 'returns true if any alements in a hash doesn\'t pass the block condition' do
+      expect(hash.my_none? { |k, v| k.is_a?(Numeric) }).to be true
+    end
+
+    it 'returns false if any alements in a hash passes the block condition' do
+      expect(hash.my_none? { |k, v| k.is_a?(Symbol) }).to be false
+    end
+  end
 
 #   describe '#' do
       
