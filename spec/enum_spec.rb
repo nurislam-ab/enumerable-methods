@@ -7,7 +7,9 @@ RSpec.describe Enumerable do
   let(:hash_idx) { { a: :b, c: :d }.to_a.map.with_index { |k, v| [k, v] } }
   let(:array_of_tuples) { [%i[a b], %i[c d]] }
   let(:array_of_tuples_idx) { [%i[a b], %i[c d]].map.with_index { |k, v| [k, v] } }
-  let(:mixed_values) {[true, false]}
+  let(:mixed_values) { [true, false, nil, 1, 'a'] }
+  let(:falsies) { [false, false, false] }
+
   describe '#my_each' do
     it 'returns an enumerable object when no block is given' do
       expect(numbers.my_each).to be_kind_of(Enumerator)
@@ -55,7 +57,7 @@ RSpec.describe Enumerable do
 
     it { expect { |b| numbers.my_select(&b) }.to yield_successive_args(*numbers) }
     it { expect { |b| array_of_tuples.my_select(&b) }.to yield_successive_args(*array_of_tuples) }
-    it { expect { |b| hash.my_select(&b) }.to yield_successive_args(*hash.to_a) }
+    it { expect { |b| hash.select(&b) }.to yield_successive_args(*hash.to_a) }
   end
 
   describe '#my_all?' do
@@ -84,13 +86,31 @@ RSpec.describe Enumerable do
     end
 
     it 'returns true if all the elements has case equality with argument given' do
-      expect(numbers.my_all?(arg)).to be true
+      expect(numbers.my_all?(Numeric)).to be true
     end
   end
 
-#   describe '#' do
-      
-#   end
+  describe '#my_any?' do
+    it 'returns true when at least one element in the collection is truthy' do
+      expect(mixed_values.my_any?).to be true
+    end
+
+    it 'returns false when none of the elements in the collection is truthy' do
+      expect(falsies.my_any?).to be false
+    end
+
+    it 'returns true one at least one element in the collection passes the block condition' do
+      expect(numbers.my_any? { |item| item > 9 }).to be true
+    end
+
+    it 'returns false when the caller collection is empty' do
+      expect([].my_any?).to be false
+    end
+
+    it 'returns true when any of the elements in the collection has case equality with the argument given' do
+      expect(mixed_values.my_any?(/a/)).to be true
+    end
+  end
 
 #   describe '#' do
       
