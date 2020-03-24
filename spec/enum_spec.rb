@@ -9,7 +9,7 @@ RSpec.describe Enumerable do
   let(:array_of_tuples_idx) { [%i[a b], %i[c d]].map.with_index { |k, v| [k, v] } }
   let(:mixed_values) { [true, false, nil, 1, 'a'] }
   let(:falsies) { [false, false, false] }
-  let(:truthies) { [true, true, true ] }
+  let(:truthies) { [true, true, true] }
 
   describe '#my_each' do
     it 'returns an enumerable object when no block is given' do
@@ -53,7 +53,7 @@ RSpec.describe Enumerable do
     end
 
     it 'returns an array with all the elements matching the argument given' do
-      expect(numbers.my_select {|item| item == 1 }).to eq([1])
+      expect(numbers.my_select { |item| item == 1 }).to eq([1])
     end
 
     it { expect { |b| numbers.my_select(&b) }.to yield_successive_args(*numbers) }
@@ -67,7 +67,7 @@ RSpec.describe Enumerable do
     end
 
     it 'returns true when all the elements of the array passes the block condition' do
-      expect(numbers.my_all?{ |number| number > -11}).to be true
+      expect(numbers.my_all? { |number| number > -11 }).to be true
     end
 
     it 'returns false when at least one element is false or nill' do
@@ -151,15 +151,53 @@ RSpec.describe Enumerable do
     end
   end
 
-#   describe '#' do
-      
-#   end
+  describe '#my_count' do
+      it 'returns the number of elements in the collection' do
+        expect(numbers.my_count).to eq(numbers.size)
+      end
 
-#   describe '#' do
-      
-#   end
+      it 'returns the number of elements matching to the given parameter' do
+        expect(numbers.my_count(2)).to eq(1)
+      end
 
-#   describe '#' do
-      
-#   end
+      it 'returns the number of elements given in the block condition' do
+        expect(numbers.my_count{ |number| number == 2}).to eq(1)
+      end
+  end
+
+  describe '#my_map' do
+    it 'returns an enumerable object when no block is given' do
+      expect(numbers.my_map).to be_kind_of(Enumerator)
+    end
+
+    it 'returns an array with the results of running block for every element in the collection' do
+      expect(numbers.my_map{ |number| number * 5}).to eq(numbers.map{ |number| number * 5})
+    end
+
+    it 'returns a hash with the results of running block for every element in the hash' do
+      expect(hash.my_map{ |item| item }).to eq(hash.to_a)
+    end
+  end
+
+  describe '#my_inject' do
+      it 'returns the combination of all the elements in the collection with the given binary operator (symbol)' do
+        expect(numbers.my_inject(:+)).to eq(numbers.inject(:+))
+      end
+
+      it 'returns the combination of all the elements in the collection with the given binary operator (string)' do
+        expect(numbers.my_inject('+')).to eq(numbers.inject('+'))
+      end
+
+      it 'receives the first argument as an initial value while the second as a binary operator' do
+        expect(numbers.my_inject(1, '+')).to eq(numbers.inject(1, '+'))
+      end
+
+      it 'receives the first argument as an initial value and combines elements in the given block' do
+        expect(numbers.my_inject(1){ |acc, current| acc += current}).to eq(numbers.inject(1){ |acc, current| acc += current})
+      end
+
+      it 'combines elements in accordance with the given block' do
+        expect(numbers.my_inject{ |acc, current| acc += current}).to eq(numbers.inject{ |acc, current| acc += current})
+      end
+  end
 end
