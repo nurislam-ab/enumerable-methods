@@ -1,4 +1,4 @@
-class Enumerable
+module Enumerable
   def my_each
     return to_enum unless block_given?
 
@@ -22,12 +22,13 @@ class Enumerable
     i = 0
     my_each do
       if is_a?(Hash)
-        yield(self[keys[i]], keys[i])
+        yield([keys[i], self[keys[i]]], i)
       else
         yield(self[i], i)
       end
       i += 1
     end
+    self
   end
 
   def my_select
@@ -35,6 +36,7 @@ class Enumerable
 
     arr = []
     my_each { |i| arr << i if yield(i) }
+    arr = arr.to_h if self.is_a?(Hash)
     arr
   end
 
