@@ -36,7 +36,7 @@ module Enumerable
 
     arr = []
     my_each { |i| arr << i if yield(i) }
-    arr = arr.to_h if self.is_a?(Hash)
+    arr = arr.to_h if is_a?(Hash)
     arr
   end
 
