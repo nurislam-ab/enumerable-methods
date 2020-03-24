@@ -75,7 +75,7 @@ RSpec.describe Enumerable do
     end
 
     it 'returns false when at least one element of the array doesnt pass the block' do
-      expect(numbers.my_all? { |number| number < 10}).to be false
+      expect(numbers.my_all? { |number| number < 10 }).to be false
     end
 
     it 'returns true for an empty collection' do
@@ -123,11 +123,11 @@ RSpec.describe Enumerable do
     end
 
     it 'returns true when none of the elements in the collection passes the block condition' do
-      expect(truthies.my_none? {|item| item == false}).to be true
+      expect(truthies.my_none? { |item| item == false }).to be true
     end
 
     it 'returns false when at least one of the elements in the collection passes the block condition' do
-      expect(mixed_values.my_none? {|item| item == 1}).to be false
+      expect(mixed_values.my_none? { |item| item == 1 }).to be false
     end
 
     it 'returns true with an empty collection' do
@@ -143,26 +143,26 @@ RSpec.describe Enumerable do
     end
 
     it 'returns true if any alements in a hash doesn\'t pass the block condition' do
-      expect(hash.my_none? { |k, v| k.is_a?(Numeric) }).to be true
+      expect(hash.my_none? { |k, _v| k.is_a?(Numeric) }).to be true
     end
 
     it 'returns false if any alements in a hash passes the block condition' do
-      expect(hash.my_none? { |k, v| k.is_a?(Symbol) }).to be false
+      expect(hash.my_none? { |k, _v| k.is_a?(Symbol) }).to be false
     end
   end
 
   describe '#my_count' do
-      it 'returns the number of elements in the collection' do
-        expect(numbers.my_count).to eq(numbers.size)
-      end
+    it 'returns the number of elements in the collection' do
+      expect(numbers.my_count).to eq(numbers.size)
+    end
 
-      it 'returns the number of elements matching to the given parameter' do
-        expect(numbers.my_count(2)).to eq(1)
-      end
+    it 'returns the number of elements matching to the given parameter' do
+      expect(numbers.my_count(2)).to eq(1)
+    end
 
-      it 'returns the number of elements given in the block condition' do
-        expect(numbers.my_count{ |number| number == 2}).to eq(1)
-      end
+    it 'returns the number of elements given in the block condition' do
+      expect(numbers.my_count { |number| number == 2 }).to eq(1)
+    end
   end
 
   describe '#my_map' do
@@ -171,33 +171,33 @@ RSpec.describe Enumerable do
     end
 
     it 'returns an array with the results of running block for every element in the collection' do
-      expect(numbers.my_map{ |number| number * 5}).to eq(numbers.map{ |number| number * 5})
+      expect(numbers.my_map { |number| number * 5 }).to eq(numbers.map { |number| number * 5 })
     end
 
     it 'returns a hash with the results of running block for every element in the hash' do
-      expect(hash.my_map{ |item| item }).to eq(hash.to_a)
+      expect(hash.my_map { |item| item }).to eq(hash.to_a)
     end
   end
 
   describe '#my_inject' do
-      it 'returns the combination of all the elements in the collection with the given binary operator (symbol)' do
-        expect(numbers.my_inject(:+)).to eq(numbers.inject(:+))
-      end
+    it 'returns the combination of all the elements in the collection with the given binary operator (symbol)' do
+      expect(numbers.my_inject(:+)).to eq(numbers.inject(:+))
+    end
 
-      it 'returns the combination of all the elements in the collection with the given binary operator (string)' do
-        expect(numbers.my_inject('+')).to eq(numbers.inject('+'))
-      end
+    it 'returns the combination of all the elements in the collection with the given binary operator (string)' do
+      expect(numbers.my_inject('+')).to eq(numbers.inject('+'))
+    end
 
-      it 'receives the first argument as an initial value while the second as a binary operator' do
-        expect(numbers.my_inject(1, '+')).to eq(numbers.inject(1, '+'))
-      end
+    it 'receives the first argument as an initial value while the second as a binary operator' do
+      expect(numbers.my_inject(1, '+')).to eq(numbers.inject(1, '+'))
+    end
 
-      it 'receives the first argument as an initial value and combines elements in the given block' do
-        expect(numbers.my_inject(1){ |acc, current| acc += current}).to eq(numbers.inject(1){ |acc, current| acc += current})
-      end
+    it 'receives the first argument as an initial value and combines elements in the given block' do
+      expect(numbers.my_inject(1) { |acc, curr| acc + curr }).to eq(numbers.inject(1) { |acc, curr| acc + curr })
+    end
 
-      it 'combines elements in accordance with the given block' do
-        expect(numbers.my_inject{ |acc, current| acc += current}).to eq(numbers.inject{ |acc, current| acc += current})
-      end
+    it 'combines elements in accordance with the given block' do
+      expect(numbers.my_inject { |acc, curr| acc + curr }).to eq(numbers.inject { |acc, curr| acc + curr })
+    end
   end
 end
