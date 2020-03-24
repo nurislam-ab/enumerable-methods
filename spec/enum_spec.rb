@@ -7,7 +7,7 @@ RSpec.describe Enumerable do
   let(:hash_idx) { { a: :b, c: :d }.to_a.map.with_index { |k, v| [k, v] } }
   let(:array_of_tuples) { [%i[a b], %i[c d]] }
   let(:array_of_tuples_idx) { [%i[a b], %i[c d]].map.with_index { |k, v| [k, v] } }
-
+  let(:mixed_values) {[true, false]}
   describe '#my_each' do
     it 'returns an enumerable object when no block is given' do
       expect(numbers.my_each).to be_kind_of(Enumerator)
@@ -58,9 +58,35 @@ RSpec.describe Enumerable do
     it { expect { |b| hash.my_select(&b) }.to yield_successive_args(*hash.to_a) }
   end
 
-#   describe '#' do
-      
-#   end
+  describe '#my_all?' do
+    it 'returns true when no element is false or nill and no block is given' do
+      expect(numbers.my_all?).to be true
+    end
+
+    it 'returns true when all the elements of the array passes the block condition' do
+      expect(numbers.my_all?{ |number| number > -11}).to be true
+    end
+
+    it 'returns false when at least one element is false or nill' do
+      expect(mixed_values.my_all?).to be false
+    end
+
+    it 'returns false when at least one element of the array doesnt pass the block' do
+      expect(numbers.my_all? { |number| number < 10}).to be false
+    end
+
+    it 'returns true for an empty collection' do
+      expect([].my_all?).to be true
+    end
+
+    it 'returns true for an empty hash' do
+      expect({}.my_all?).to be true
+    end
+
+    it 'returns true if all the elements has case equality with argument given' do
+      expect(numbers.my_all?(arg)).to be true
+    end
+  end
 
 #   describe '#' do
       
