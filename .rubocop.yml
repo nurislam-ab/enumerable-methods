@@ -35,6 +35,9 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Style/CaseEquality:
   Enabled: false
+Style/BlockComments:
+  Exclude:
+    - "spec/spec_helper.rb"
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
